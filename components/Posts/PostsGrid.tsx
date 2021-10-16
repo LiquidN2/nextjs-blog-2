@@ -3,10 +3,10 @@ import styles from './PostsGrid.module.scss';
 import React from 'react';
 import PostItem from './PostItem';
 
-import type { Props as PostType } from './PostItem';
+import type { Post } from '../../types/Post';
 
 type Props = {
-  posts: PostType[];
+  posts: Post[];
 };
 
 const PostsGrid: React.FC<Props> = ({ posts = [] }) => {

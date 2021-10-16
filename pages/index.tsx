@@ -11,7 +11,7 @@ type Props = {
   posts: Post[];
 };
 
-const Home: NextPage<Props> = ({ posts }) => {
+const Home: NextPage<Props> = ({ posts = [] }) => {
   return (
     <>
       <Hero />

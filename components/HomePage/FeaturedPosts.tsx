@@ -3,7 +3,7 @@ import styles from './FeaturedPosts.module.scss';
 import React from 'react';
 import PostsGrid from '../Posts/PostsGrid';
 
-import type { Props as Post } from '../Posts/PostItem';
+import type { Post } from '../../types/Post';
 
 type Props = {
   posts: Post[];
