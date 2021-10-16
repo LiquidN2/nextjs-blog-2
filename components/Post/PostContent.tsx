@@ -1,9 +1,9 @@
 import styles from './PostContent.module.scss';
 
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import PostHeader from './PostHeader';
+
+import Markdown from '../Markdown/Markdown';
 
 type Props = {
   title: string;
@@ -13,9 +13,9 @@ type Props = {
 
 const PostContent: React.FC<Props> = ({ title, image, content }) => {
   return (
-    <article>
+    <article className={styles.content}>
       <PostHeader title={title} image={image} />
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <Markdown>{content}</Markdown>
     </article>
   );
 };
