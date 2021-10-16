@@ -2,6 +2,7 @@ import styles from './Markdown.module.scss';
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Image from 'next/image';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -46,6 +47,7 @@ const MarkdownComponents: object = {
   code: (code: any) => {
     const { node, inline, className, children, ...props } = code;
 
+    // get the language
     const match = /language-(\w+)/.exec(className || '');
 
     return !inline && match ? (
@@ -63,12 +65,22 @@ const MarkdownComponents: object = {
       </code>
     );
   },
+
+  a: (anchor: any) => {
+    return (
+      <a href={anchor.href} target="_blank" rel="noreferrer">
+        {anchor.children}
+      </a>
+    );
+  },
 };
 
 const Markdown: React.FC = ({ children }) => {
   if (typeof children !== 'string') return null;
   return (
-    <ReactMarkdown components={MarkdownComponents}>{children}</ReactMarkdown>
+    <ReactMarkdown components={MarkdownComponents} remarkPlugins={[remarkGfm]}>
+      {children}
+    </ReactMarkdown>
   );
 };
 

@@ -21,4 +21,13 @@
     width: 100%;
     max-width: 600px;
   }
+
+  a {
+    color: royalblue;
+    transition: all 0.2s;
+
+    &:hover {
+      color: darken(royalblue, 20%);
+    }
+  }
 }
