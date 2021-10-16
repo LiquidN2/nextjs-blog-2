@@ -25,7 +25,6 @@ const Paragraph = (props: any) => {
           src={image.properties.src}
           width={width}
           height={height}
-          className="postImg"
           alt={alt}
           priority={isPriority}
         />
