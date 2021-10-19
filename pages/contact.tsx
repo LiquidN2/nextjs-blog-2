@@ -16,10 +16,10 @@ const Contact: NextPage = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      console.log(data);
+      return await response.json();
     } catch (err) {
       console.error(err);
+      throw err;
     }
   };
 

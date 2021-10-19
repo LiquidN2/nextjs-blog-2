@@ -1,21 +1,53 @@
 import styles from './ContactForm.module.scss';
 
-import React, {ChangeEventHandler, FormEventHandler, useState} from 'react';
-import {isValidEmail} from '../../utils/helpers';
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from 'react';
+import Notification from '../UI/Notification';
+
+import { isValidEmail } from '../../utils/helpers';
 
 type Props = {
   handleSubmit: (formData: {
     name: string;
     email: string;
     message: string;
-  }) => void;
+  }) => any;
+};
+
+type Request = {
+  status: 'pending' | 'success' | 'error' | '';
+  title: string;
+  message: string;
 };
 
 const ContactForm: React.FC<Props> = props => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [request, setRequest] = useState<Request>({
+    status: '',
+    title: '',
+    message: '',
+  });
+
+  // automatically clear 'success' and 'error' status after 3s
+  useEffect(() => {
+    if (!request.status || request.status === 'pending') return;
+
+    const timer = setTimeout(() => {
+      setRequest({
+        status: '',
+        title: '',
+        message: '',
+      });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [request]);
 
   const handleInputChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -38,6 +70,12 @@ const ContactForm: React.FC<Props> = props => {
   const handleSubmit: FormEventHandler = async event => {
     event.preventDefault();
 
+    setRequest({
+      status: 'pending',
+      title: 'sending message...',
+      message: 'Your message is on its way',
+    });
+
     try {
       const formData = {
         name: name.trim(),
@@ -50,8 +88,22 @@ const ContactForm: React.FC<Props> = props => {
 
       if (invalidData) throw 'invalid input';
 
-      await props.handleSubmit(formData);
+      const data = await props.handleSubmit(formData);
+
+      if (!data || data.status === 'error' || data.status === 'fail')
+        throw data.message;
+
+      setRequest({
+        status: 'success',
+        title: 'Success!',
+        message: 'Message has been sent.',
+      });
     } catch (err) {
+      setRequest({
+        status: 'error',
+        title: 'Error!',
+        message: typeof err === 'string' ? err : 'Something went wrong',
+      });
       throw err;
     }
   };
@@ -98,6 +150,7 @@ const ContactForm: React.FC<Props> = props => {
           <button>Send message</button>
         </div>
       </form>
+      {request.status && <Notification {...request} />}
     </section>
   );
 };

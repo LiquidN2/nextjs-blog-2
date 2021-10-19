@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import AppError from '../../utils/appError';
 import { isValidEmail } from '../../utils/helpers';
+import dbConnect from '../../db/dbConnect';
+import Contact from '../../models/Contact';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -16,10 +18,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (invalidData) throw new AppError('Invalid input data', 422);
 
         // save to db
+        await dbConnect();
         const newMessage = { email, name, message };
-        console.log(newMessage);
+        const newDoc = new Contact(newMessage);
+        await newDoc.save();
 
-        res.status(201).json({ status: 'success', message: newMessage });
+        res.status(201).json({
+          status: 'success',
+          message: newMessage,
+        });
         break;
 
       default:
@@ -36,4 +43,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default handler;
-
