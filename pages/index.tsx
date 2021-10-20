@@ -25,15 +25,11 @@ export const getStaticProps: GetStaticProps = async () => {
     const data = await request(GET_FEATURED_POSTS);
 
     return {
-      props: {
-        posts: data.posts,
-      },
+      props: { posts: data.posts },
     };
   } catch (err) {
     return {
-      props: {
-        error: 'Unable to fetch post',
-      },
+      props: { error: 'Unable to fetch post' },
     };
   }
 };

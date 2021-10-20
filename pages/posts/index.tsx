@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next';
 import type { Post } from '../../types/Post';
 
+import Head from 'next/head';
 import AllPosts from '../../components/Posts/AllPosts';
 
 import { request } from '../../utils/graphql';
@@ -11,7 +12,14 @@ type Props = {
 };
 
 const Posts: NextPage<Props> = ({ posts = [] }) => {
-  return <AllPosts posts={posts} />;
+  return (
+    <>
+      <Head>
+        <title>Hugh Nguyen - All Blog Posts</title>
+      </Head>
+      <AllPosts posts={posts} />
+    </>
+  );
 };
 
 export default Posts;

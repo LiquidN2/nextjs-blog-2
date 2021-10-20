@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+
+import Head from 'next/head';
 import ContactForm from '../components/Contact/ContactForm';
 
 const Contact: NextPage = () => {
@@ -23,7 +25,14 @@ const Contact: NextPage = () => {
     }
   };
 
-  return <ContactForm handleSubmit={handleSubmit} />;
+  return (
+    <>
+      <Head>
+        <title>Do you have any questions? Contact me 😃</title>
+      </Head>
+      <ContactForm handleSubmit={handleSubmit} />
+    </>
+  );
 };
 
 export default Contact;

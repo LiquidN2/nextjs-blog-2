@@ -4,6 +4,7 @@ import AppError from '../../utils/appError';
 import { isValidEmail } from '../../utils/helpers';
 import dbConnect from '../../db/dbConnect';
 import Contact from '../../models/Contact';
+import sendEmail from '../../utils/email';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -22,6 +23,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const newMessage = { email, name, message };
         const newDoc = new Contact(newMessage);
         await newDoc.save();
+
+        // send email
+        await sendEmail(message);
 
         res.status(201).json({
           status: 'success',
