@@ -27,6 +27,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/nodemailer": "^6.4.4",
     "@types/react": "^17.0.30",
+    "@types/react-syntax-highlighter": "^13.5.2",
     "eslint": "^8.0.1",
     "eslint-config-next": "11.1.2",
     "sass": "^1.43.2",
